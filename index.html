@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <script src="https://unpkg.com/monaco-editor@latest/min/vs/loader.js"></script>
+    <style>
+      body {
+        background-color: black;
+      }
+      #output {
+        color: white;
+      }
+    </style>
+	</head>
+	<body>
+    <div>
+		  <div id="output-container" style="width: 48%; height: 600px; float: right">
+        <button id="button">Check the code</button>
+        <br>
+        <br>
+        <div id="output"></div>
+      </div>
+		  <div id="container" style="width: 50%; height: 800px; border: 1px solid grey; float: right"></div>
+    </div>
+		<script>
+      require.config({ paths: { 'vs': 'https://unpkg.com/monaco-editor@latest/min/vs' }});
+      window.MonacoEnvironment = { getWorkerUrl: () => proxy };
+
+      let proxy = URL.createObjectURL(new Blob([`
+        self.MonacoEnvironment = {
+          baseUrl: 'https://unpkg.com/monaco-editor@latest/min/'
+        };
+        importScripts('https://unpkg.com/monaco-editor@latest/min/vs/base/worker/workerMain.js');
+      `], { type: 'text/javascript' }));
+
+      require(["vs/editor/editor.main"], function () {
+        window.editor = monaco.editor.create(document.getElementById('container'), {
+          value: [
+            'class Database',
+            '  def stablish_connection',
+            '  end',
+            'end'
+          ].join('\n'),
+          language: 'ruby',
+          theme: 'vs-dark'
+        });
+      });
+		</script>
+    <script type="module">
+      import init, { doomdooz } from "./pkg/doomdooz_wasm.js";
+      init().then(() => {
+        const buttonElement = document.getElementById('button');
+        const outputElement = document.getElementById('output');
+
+        buttonElement.addEventListener('click', (event) => {
+          output = doomdooz(window.editor.getValue()).replaceAll("\n", "<br>").replaceAll(" ", "&ensp;");
+          console.log(output);
+          outputElement.innerHTML = output;
+        });
+      });
+    </script>
+	</body>
+</html>
