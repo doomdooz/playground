@@ -1,0 +1,12 @@
+{
+  "name": "doomdooz-wasm",
+  "version": "0.1.0",
+  "files": [
+    "doomdooz_wasm_bg.wasm",
+    "doomdooz_wasm.js",
+    "doomdooz_wasm.d.ts"
+  ],
+  "module": "doomdooz_wasm.js",
+  "types": "doomdooz_wasm.d.ts",
+  "sideEffects": false
+}
