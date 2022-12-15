@@ -15,9 +15,6 @@
   <body>
     <div>
       <div id="output-container" style="width: 48%; height: 600px; float: right">
-        <button id="button">Check the code</button>
-        <br>
-        <br>
         <div id="output"></div>
       </div>
       <div id="container" style="width: 50%; height: 800px; border: 1px solid grey; float: right"></div>
@@ -49,13 +46,15 @@
     <script type="module">
       import init, { doomdooz } from "./pkg/doomdooz_wasm.js";
       init().then(() => {
-        const buttonElement = document.getElementById('button');
         const outputElement = document.getElementById('output');
 
-        buttonElement.addEventListener('click', (event) => {
-          let output = doomdooz(window.editor.getValue()).replaceAll("\n", "<br>").replaceAll(" ", "&ensp;");
-          outputElement.innerHTML = output;
-        });
+        setTimeout(function () {
+
+          window.editor.onDidChangeModelContent(function (e) {
+            let output = doomdooz(window.editor.getValue()).replaceAll("\n", "<br>").replaceAll(" ", "&ensp;");
+            outputElement.innerHTML = output;
+          });
+        }, 2000);
       });
     </script>
   </body>
