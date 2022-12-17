@@ -3,6 +3,14 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     <script src="https://unpkg.com/monaco-editor@latest/min/vs/loader.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Anonymous Pro">
+    <style>
+      #output {
+        font-family: 'Anonymous Pro', serif;
+        font-size: 18px;
+      }
+    </style>
+
     <style>
       body {
         background-color: black;
@@ -49,12 +57,13 @@
         const outputElement = document.getElementById('output');
 
         setTimeout(function () {
-
           window.editor.onDidChangeModelContent(function (e) {
             let output = doomdooz(window.editor.getValue()).replaceAll("\n", "<br>").replaceAll(" ", "&ensp;");
             outputElement.innerHTML = output;
           });
-        }, 2000);
+
+          // window.editor.trigger('', 'didChangeModelContent');
+        }, 1000);
       });
     </script>
   </body>
